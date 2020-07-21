@@ -203,10 +203,6 @@ extensionApi.storage.sync.get({
 
   // Remove cookies for custom sites
   _removeCookies = removeCookies.concat(items.customSites);
-
-  if (extensionApi === chrome) {
-    initGA();
-  }
 });
 
 // Listen for changes to options
@@ -424,24 +420,6 @@ extensionApi.webRequest.onCompleted.addListener(function (details) {
 }, {
   urls: ['<all_urls>']
 });
-
-// Google Analytics to anonymously track DAU (Chrome only)
-function initGA () {
-  (function (i, s, o, g, r, a, m) {
-    i.GoogleAnalyticsObject = r;
-    i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments);
-    }, i[r].l = 1 * new Date();
-    a = s.createElement(o), m = s.getElementsByTagName(o)[0];
-    a.async = 1;
-    a.src = g;
-    m.parentNode.insertBefore(a, m);
-  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-  ga('create', 'UA-69824169-2', 'auto');
-  ga('set', 'checkProtocolTask', null);
-  ga('set', 'anonymizeIp', true);
-  ga('send', 'pageview');
-}
 
 function isSiteEnabled (details) {
   const enabledSite = matchUrlDomain(enabledSites, details.url);
